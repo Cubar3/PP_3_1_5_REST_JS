@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/admin}" th:object="${user}" >
+  <label for="firstName">Enter first name: </label>
+  <input type="text" th:field="*{firstName}" id="firstName"/>
+  <br/>
+  <label for="lastName">Enter last name: </label>
+  <input type="text" th:field="*{lastName}" id="lastName"/>
+  <br/>
+  <label for="age">Enter age: </label>
+  <input type="text" th:field="*{age}" id="age"/>
+  <br/>
+  <label for="email">Enter email: </label>
+  <input type="text" th:field="*{email}" id="email"/>
+  <br/>
+  <label for="username">Enter username: </label>
+  <input type="text" th:field="*{username}" id="username"/>
+  <br/>
+  <label for="password">Enter password: </label>
+  <input type="text" th:field="*{password}" id="password">
+  <br/>
+  <div class="mb-3">
+    <label class="container-fluid " for="rolesNew">Role</label>
+    <select id="rolesNew" class="form-select col-md-5"
+            name="roles" multiple="" size="2" >
+      <option value="1">ADMIN</option>
+      <option value="2">USER</option>
+    </select>
+  </div>
+<!--  <label for="role">Enter role: </label>-->
+<!--  <input type="text" th:field="*{roles[0].role}" id="role">-->
+  <br/>
+  <input type="submit" value="Create" />
+</form>
+
+</body>
+</html>
