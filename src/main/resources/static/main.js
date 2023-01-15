@@ -10,7 +10,9 @@ function getAllUsers() {
                 <td id="id${user.id}">${user.id}</td>
                 <td id="first_name${user.id}">${user.firstName}</td>
                 <td id="last_name${user.id}">${user.lastName}</td>
-                <td id="username0${user.id}">${user.username}</td>
+                <td id="username${user.id}">${user.username}</td>
+                <td id="age${user.id}">${user.age}</td>
+                <td id="email${user.id}">${user.email}</td>
                 <td id="roles${user.id}">${user.authorities.map(r => r.role.replace("ROLE_", ""))}</td>
                 <td>
                 <button class="btn btn-info btn-md" type="button"
@@ -42,6 +44,8 @@ function openModal(id) {
             document.getElementById('passwordEditUser').value = u.password;
             document.getElementById('firstNameEditUser').value = u.firstName;
             document.getElementById('lastNameEditUser').value = u.lastName;
+            document.getElementById('ageEditUser').value = u.age;
+            document.getElementById('emailEditUser').value = u.email;
             document.getElementById('rolesEditUser').value = u.authorities;
 
             document.getElementById('idDeleteUser').value = u.id;
@@ -70,6 +74,8 @@ async function editUser() {
             password: document.getElementById('passwordEditUser').value,
             firstName: document.getElementById('firstNameEditUser').value,
             lastName: document.getElementById('lastNameEditUser').value,
+            age: document.getElementById('ageEditUser').value,
+            email: document.getElementById('ageEditUser').value,
             roles: getRoles(document.getElementById('rolesEditUser'))
         })
     }).then(response => console.log(response));
@@ -97,6 +103,8 @@ function addNewUser() {
     let password = document.getElementById('newUserPassword').value;
     let firstName = document.getElementById('newUserFirstName').value;
     let lastName = document.getElementById('newUserLastName').value;
+    let age = document.getElementById('newUserAge').value;
+    let email = document.getElementById('newUserEmail').value;
     let roles = getRoles(document.getElementById('newUserRoles'));
     fetch("http://localhost:8080/api/create", {
         method: "POST",
@@ -109,6 +117,8 @@ function addNewUser() {
             lastName: lastName,
             username: username,
             password: password,
+            age: age,
+            email: email,
             roles: roles
         })
     })
