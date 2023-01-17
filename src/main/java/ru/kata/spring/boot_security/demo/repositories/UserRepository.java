@@ -7,9 +7,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.models.User;
 
-@Repository
-public interface UserRepository extends JpaRepository<User,Integer> {
+
+public interface UserRepository extends JpaRepository<User, Long> {
     @EntityGraph(value = "user-entity-graph")
-    @Query("select u from User u where u.username = :username")
-    User findByUsername(@Param("username")String username);
+    @Query("select u from User u where u.login = :userName")
+    User findByUsername(@Param("userName") String userName);
 }

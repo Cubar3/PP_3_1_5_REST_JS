@@ -1,87 +1,68 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
-          crossorigin="anonymous"> <meta charset="UTF-8">
-    <title>User Panel</title>
+    <meta charset="UTF-8">
+    <title>User</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
 </head>
 <body>
-
-<header class="p-3 bg-dark text-white">
-    <div class="container">
-        <div class="bg-dark  ">
-            <div class="d-inline">
-            <span class="text-white h6">
-                <strong><th:block th:text="${user.getUsername()}">admin</th:block></strong>
-            </span>
-                &nbsp;
-                <span class="text-white h6">
-                <th:block class="font-weight-normal" th:text="'with roles: '+ ${user.getRoles()}">ADMIN</th:block>
-            </span>
-            </div>
-            <div class="d-inline float-right nav mr-0 pr-0">
-                <a class="text-secondary nav-item " th:href="@{/logout}">logout</a>
-            </div>
+<!--Шапка-->
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1"
+              th:text = "${user.login} + '  with role:  ' + ${user.roles}">
+        </span>
+        <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
+    </div>
+</nav>
+<div class="d-flex align-items-start">
+    <!--    Боковая панель-->
+    <div class="col-2">
+        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-user-tab" data-bs-toggle="pill" href="#v-pills-user" role="tab"
+               aria-controls="v-pills-user" aria-selected="false">User</a>
         </div>
     </div>
-</header>
-
-<div class="container-fluid">
-    <div class="row">
-
-
-
-        <div class="col-2" style="padding: 0; padding-top: 20px">
-            <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#userPanel">User</a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-10 bg-light">
-            <div class="tab-content" style="padding-top: 20px; height: 100vh">
-                <div class="tab-pane" id="userPanel">
-                    <h2>User information-page</h2>
-                    <div class="card">
-                        <h5 class="card-header">About user</h5>
-                        <div class="card-body text-center">
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Username</th>
-                                    <th>Имя</th>
-                                    <th>Фамилия</th>
-                                    <th>Возраст</th>
-                                    <th>Email</th>
-                                    <th>Roles</th>
-                                </tr>
-                                </thead>
-                                <tbody id="tbodyAboutUser">
-                                <td th:utext="${user.getId()}">Id</td>
-                                <td th:utext="${user.getUsername()}">Username</td>
-                                <td th:utext="${user.getFirstName()}">First Name</td>
-                                <td th:utext="${user.getLastName()}">Last Name</td>
-                                <td th:utext="${user.getAge()}">Age</td>
-                                <td th:utext="${user.getEmail()}">Email</td>
-                                <td th:utext="${user.getRoles()}">...</td>
-                                </tbody>
-                            </table>
-                        </div>
+<!--    Остальное содержимое-->
+    <div class="col-10">
+        <div class="tab-content bg-light" id="v-pills-tabContent">
+            <!--                User information-page-->
+            <div class="tab-pane fade show active" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
+                <div class="container">
+                    <div class="d-flex align-content-center flex-wrap" style="height: 100px">
+                        <h1 class="display-3">User information-page</h1>
                     </div>
+                    <table class="table table-striped table-bordered table-hover caption-top">
+                        <caption><p class="fw-bold">About user</p></caption>
+                        <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Last Name</th>
+                            <th>Age</th>
+                            <th>Login</th>
+                            <th>Roles</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td th:text = "${user.id}"></td>
+                            <td th:text = "${user.name}"></td>
+                            <td th:text = "${user.lastName}"></td>
+                            <td th:text = "${user.age}"></td>
+                            <td th:text = "${user.login}"></td>
+                            <td th:text = "${user.roles}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
-        crossorigin="anonymous"></script>
 </body>
 </html>

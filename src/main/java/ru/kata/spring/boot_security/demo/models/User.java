@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 
 
@@ -21,60 +21,63 @@ public class User implements UserDetails {
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(name = "First_Name")
-    private String firstName;
-    @Column(name = "Last_Name")
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "l_name")
     private String lastName;
-    @Column(name = "Age")
+
+    @Column(name = "age")
     private Byte age;
-    @Column(name = "Email", unique = true)
-    private String email;
-    @Column(name = "username", unique = true)
-    private String username;
-    @Column(name = "password", unique = true)
+
+    @Column(name = "login")
+    private String login;
+
+    @Column(name = "pass")
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Role> roles = new ArrayList<>();
+    private Set<Role> roles = new HashSet<>();
 
     public void addRole(Role role) {
         roles.add(role);
     }
 
     public User() {
+
     }
 
-    public User(String firstName, String lastName, Byte age, String email, String username, String password, List<Role> roles) {
-        this.firstName = firstName;
+    public User(Long id, String name, String lastName, Byte age, String login, String password, Set<Role> roles) {
+        this.id = id;
+        this.name = name;
         this.lastName = lastName;
         this.age = age;
-        this.email = email;
-        this.username = username;
+        this.login = login;
         this.password = password;
         this.roles = roles;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLastName() {
@@ -93,33 +96,21 @@ public class User implements UserDetails {
         this.age = age;
     }
 
-    public String getEmail() {
-        return email;
+    public String getLogin() {
+        return login;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+    public String getUsername() {
+        return getLogin();
+    }
+
+    public void setUsername(String login) {
+        this.login = login;
     }
 
     @Override
@@ -127,9 +118,21 @@ public class User implements UserDetails {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
-    public String getUsername() {
-        return username;
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
     @Override
