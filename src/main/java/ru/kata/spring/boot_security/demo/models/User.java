@@ -1,14 +1,14 @@
 package ru.kata.spring.boot_security.demo.models;
 
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
-import jakarta.persistence.*;
-
-
 
 @Entity
 @Table(name = "users")
@@ -37,6 +37,7 @@ public class User implements UserDetails {
 
     @Column(name = "pass")
     private String password;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

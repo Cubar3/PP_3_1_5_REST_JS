@@ -1,9 +1,9 @@
-package ru.kata.spring.boot_security.demo.service;
+package ru.kata.spring.boot_security.demo.services;
+
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,6 @@ import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.List;
-
 
 @Service
 public class UserService implements UserDetailsService {
@@ -38,11 +37,12 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void saveUser(User user){
+    public void saveOrUpdateUser(User user){
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
+    @Transactional
     public void deleteById(Long id){
         userRepository.deleteById(id);
     }
@@ -56,6 +56,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User findUserByUserName(String userName) {
-        return findAll().stream().filter(user -> user.getUsername().equals(userName)).findAny().orElse(null);
+       return findAll().stream().filter(user -> user.getUsername().equals(userName)).findAny().orElse(null);
     }
+
 }
